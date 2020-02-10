@@ -1,15 +1,13 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {FaCode} from 'react-icons/fa';
-import {APIKey, APIUrl} from '../API';
-import NavBar from '../components/NavBar';
+import {APIKey, APIUrl, ImageUrl, ImageSize} from '../API';
 import Carousel from '../components/Carousel';
 import Card from '../components/Card';
 import MainImage from '../components/MainImage';
 
 function LandingPage() {
+  const buttonRef = useRef(null);
 
-    const buttonRef = useRef(null)
-    
   const [Movies, setMovies] = useState([]);
   const [MainMovieImage, setMainMovieImage] = useState(null);
   const [Loading, setLoading] = useState(true);
@@ -45,28 +43,45 @@ function LandingPage() {
   };
 
   const loadItems = () => {
-      let endScroll = ''
-      setLoading(true)
-      console.log('CurrentPage', CurrentPage)
-      endScroll = `${APIUrl}movie/popular?api_key=${APIKey}&language=en-US&page=${CurrentPage + 1}`
-      fetchMovies(endScroll)
-  }
+    let endScroll = '';
+    setLoading(true);
+    console.log('CurrentPage', CurrentPage);
+    endScroll = `${APIUrl}movie/popular?api_key=${APIKey}&language=en-US&page=${CurrentPage +
+      1}`;
+    fetchMovies(endScroll);
+  };
 
   const handleScroll = () => {
-      const windowHeight = 'innerHeight' in window ? window.innerHeight : document.documentElement.offsetHeight
-      const body = document.body
-      const html = document.documentElement
-      const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight)
-      const windowBottom = windowHeight + window.pageYOffset
-      if(windowBottom >= docHeight - 1) {
-          console.log('clicked')
-          buttonRef.current.click()
-      }
-  }
+    const windowHeight =
+      'innerHeight' in window
+        ? window.innerHeight
+        : document.documentElement.offsetHeight;
+    const body = document.body;
+    const html = document.documentElement;
+    const docHeight = Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+    const windowBottom = windowHeight + window.pageYOffset;
+    if (windowBottom >= docHeight - 1) {
+      console.log('clicked');
+      buttonRef.current.click();
+    }
+  };
 
   return (
     <>
-      <MainImage />
+      {MainMovieImage && (
+        <MainImage
+          image={`${ImageUrl}${ImageSize}${MainMovieImage.backdrop_path}`}
+          title={MainMovieImage.original_title}
+          text={MainMovieImage.overview}
+        />
+      )}
+
       <Carousel />
       <Card />
     </>
