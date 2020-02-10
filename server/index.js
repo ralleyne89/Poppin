@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const mongoose = require('mongoose');
 
 const configKey = require('./config/key');
 
@@ -8,7 +9,6 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
 // Connect mongoose to DB
-const mongoose = require('mongoose');
 const connect = mongoose
   .connect(configKey.mongoURI, {
     useNewUrlParser: true,
