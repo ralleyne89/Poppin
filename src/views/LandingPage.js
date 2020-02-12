@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {FaCode} from 'react-icons/fa';
-import {APIKey, APIUrl, ImageUrl, ImageSize} from '../API';
+import {APIKey, APIUrl, ImageUrl, ImageSize, PosterSize} from '../API';
 import Carousel from '../components/Carousel';
 import Card from '../components/Card';
 import MainImage from '../components/MainImage';
@@ -13,13 +12,6 @@ function LandingPage() {
   const [Loading, setLoading] = useState(true);
   const [CurrentPage, setCurrentPage] = useState(0);
 
-  // useEffect(() => {
-  //     fetch(`${APIUrl}movie/popular?api_key=${APIKey}&language=en-US&page=1`)
-  //     .then(response => response.json())
-  //     .then(response => {
-  //         console.log(response)
-  //     })
-  // }, [])
 
   useEffect(() => {
     const endScroll = `${APIUrl}movie/popular?api_key=${APIKey}&language=en-US&page=1`;
@@ -83,7 +75,17 @@ function LandingPage() {
       )}
 
       <Carousel />
-      <Card />
+      {Movies && Movies.map((movie, index) => (
+                        <React.Fragment key={index}>
+                            <Card
+                                image={movie.poster_path ?
+                                    `${ImageUrl}${PosterSize}${movie.poster_path}`
+                                    : null}
+                                movieId={movie.id}
+                                movieName={movie.original_title}
+                            />
+                        </React.Fragment>
+                    ))}
     </>
   );
 }
