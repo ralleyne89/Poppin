@@ -12,7 +12,6 @@ function LandingPage() {
   const [Loading, setLoading] = useState(true);
   const [CurrentPage, setCurrentPage] = useState(0);
 
-
   useEffect(() => {
     const endScroll = `${APIUrl}movie/popular?api_key=${APIKey}&language=en-US&page=1`;
     fetchMovies(endScroll);
@@ -34,7 +33,7 @@ function LandingPage() {
       .catch(err => console.error('Error:', err));
   };
 
-  const loadItems = () => {
+  const loadMoreItems = () => {
     let endScroll = '';
     setLoading(true);
     console.log('CurrentPage', CurrentPage);
@@ -75,17 +74,25 @@ function LandingPage() {
       )}
 
       <Carousel />
-      {Movies && Movies.map((movie, index) => (
-                        <React.Fragment key={index}>
-                            <Card
-                                image={movie.poster_path ?
-                                    `${ImageUrl}${PosterSize}${movie.poster_path}`
-                                    : null}
-                                movieId={movie.id}
-                                movieName={movie.original_title}
-                            />
-                        </React.Fragment>
-                    ))}
+      {Movies &&
+        Movies.map((movie, index) => (
+          <React.Fragment key={index}>
+            <Card
+              image={
+                movie.poster_path
+                  ? `${ImageUrl}${PosterSize}${movie.poster_path}`
+                  : null
+              }
+              movieId={movie.id}
+              movieName={movie.original_title}
+            />
+          </React.Fragment>
+        ))}
+        {Loading && <div>Loading...</div>}
+        <br/>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+          <button ref={buttonRef} className='loadMore' onClick={loadMoreItems}>Load More</button>
+        </div>
     </>
   );
 }

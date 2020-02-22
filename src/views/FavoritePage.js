@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
-import { ImageUrl, PosterSize } from '../API';
+import {ImageUrl, PosterSize} from '../API';
 
 function FavoritePage() {
   const user = useSelector(state => state.user);
